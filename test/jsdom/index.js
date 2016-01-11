@@ -3,6 +3,7 @@ var fs   = require("fs");
 var jsdom = require('../../lib/jsdom');
 var inheritFrom = require("../../lib/jsdom/utils").inheritFrom;
 var toFileUrl = require('../util').toFileUrl(__dirname);
+var defaultUserAgent = require('../../lib/jsdom/utils').defaultUserAgent;
 var http = require("http");
 var URL = require('url');
 
@@ -344,6 +345,14 @@ exports.tests = {
     var document = jsdom.jsdom(),
         window   = document.defaultView;
     test.notEqual(window.Element, null, 'window.Element should not be null');
+    test.done();
+  },
+
+  window_navigator_useragent_has_default_value: function(test) {
+    var document = jsdom.jsdom(),
+        window   = document.defaultView;
+    test.strictEqual(typeof window.navigator.userAgent, 'string', 'window.navigator.userAgent should be a string');
+    test.strictEqual(window.navigator.userAgent, defaultUserAgent, 'window.navigator.userAgent should have the correct default value');
     test.done();
   },
 
